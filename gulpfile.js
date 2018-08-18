@@ -12,8 +12,10 @@
     // task default
     gulp.task('default', [
         'compile.css',
+        'vendor.css',
         'pack.vendor',
         'pack.app',
+        'pack.view',
         'serve',
         'watch'
     ]);
@@ -22,7 +24,16 @@
     gulp.task('compile.css', function() {
         gulp.src('./app/styles/**/*.css')
             .pipe(concat('style.css'))
-            .pipe(gulp.dest('./dist/styles/styles.css'));
+            .pipe(gulp.dest('./dist/styles/'));
+    });
+
+    // vendor.css
+    gulp.task('vendor.css', function() {
+        gulp.src([
+            'node_modules/bootstrap/dist/css/bootstrap.css'
+        ])
+            .pipe(concat('vendor.css'))
+            .pipe(gulp.dest('./dist/styles/'))
     });
 
     // task pack.app
@@ -46,6 +57,16 @@
         .pipe(gulp.dest('./dist/scripts/'));
     });
 
+    // pack.view
+    gulp.task('pack.view', function () {
+        gulp.src('app/components/carousel/view/carousel-template.html')
+            .pipe(gulp.dest('./dist/views'));
+
+        gulp.src('app/components/**/*.css')
+            .pipe(concat('styles.css'))
+            .pipe(gulp.dest('./dist/views/'));
+    });
+
     // task reload
     gulp.task('reload', function () {
         reload
@@ -62,7 +83,16 @@
 
     // watch
     gulp.task('watch', function() {
-        gulp.watch(['app/**/*.js', 'app/**/*.css'], ['compile.css', 'pack.app', reload]);
+        gulp.watch([
+            '**/*.html',
+            'app/**/*.js',
+            'app/**/*.css'
+        ], [
+            'compile.css',
+            'pack.app',
+            'pack.view',
+            reload
+        ]);
     });
 
 })();

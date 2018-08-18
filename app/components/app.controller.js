@@ -5,7 +5,7 @@
     angular.module('app')
         .controller('AppController', AppController);
 
-    function AppController() {
+    function AppController(CarouselService) {
 
         //////////////
         var vm = this;
@@ -15,6 +15,7 @@
 
         function init() {
             console.log("AppController");
+            console.log(CarouselService.getInfo());
         }
         init();
     }
