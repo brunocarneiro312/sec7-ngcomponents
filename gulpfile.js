@@ -7,13 +7,15 @@
     var less        = require('gulp-less');
     var order       = require('gulp-order');
     var browserSync = require('browser-sync').create();
+    var reload      = browserSync.reload;
 
     // task default
     gulp.task('default', [
         'compile.css',
         'pack.vendor',
         'pack.app',
-        'serve'
+        'serve',
+        'watch'
     ]);
 
     // task compile.css
@@ -44,6 +46,11 @@
         .pipe(gulp.dest('./dist/scripts/'));
     });
 
+    // task reload
+    gulp.task('reload', function () {
+        reload
+    })
+
     // task serve
     gulp.task('serve', function() {
         browserSync.init({
@@ -51,6 +58,11 @@
                 baseDir: './'
             }
         });
+    });
+
+    // watch
+    gulp.task('watch', function() {
+        gulp.watch(['app/**/*.js', 'app/**/*.css'], ['compile.css', 'pack.app', reload]);
     });
 
 })();

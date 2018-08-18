@@ -11,6 +11,8 @@
         var vm = this;
         //////////////
 
+        vm.message = "AppController message!!!";
+
         function init() {
             console.log("AppController");
         }
